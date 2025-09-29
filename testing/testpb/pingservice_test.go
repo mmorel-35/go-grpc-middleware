@@ -20,7 +20,8 @@ import (
 
 func TestPingServiceOnWire(t *testing.T) {
 	stopped := make(chan error)
-	serverListener, err := net.Listen("tcp", "127.0.0.1:0")
+	lc := &net.ListenConfig{}
+	serverListener, err := lc.Listen(context.Background(), "tcp", "127.0.0.1:0")
 	require.NoError(t, err, "must be able to allocate a port for serverListener")
 
 	server := grpc.NewServer()

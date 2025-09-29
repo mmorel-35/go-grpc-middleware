@@ -4,6 +4,7 @@
 package protovalidate_test
 
 import (
+	"context"
 	"net"
 
 	"buf.build/go/protovalidate"
@@ -40,7 +41,8 @@ func ExampleStreamServerInterceptor() {
 
 	testvalidatev1.RegisterTestValidateServiceServer(srv, svc)
 
-	listener, err := net.Listen("tcp", ":3000")
+	lc := &net.ListenConfig{}
+	listener, err := lc.Listen(context.Background(), "tcp", ":3000")
 	if err != nil {
 		panic(err) // only for example purposes
 	}

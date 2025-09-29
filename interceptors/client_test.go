@@ -148,7 +148,8 @@ func (s *ClientInterceptorTestSuite) SetupSuite() {
 	s.stopped = make(chan error)
 	s.mock = &mockReportable{}
 
-	s.serverListener, err = net.Listen("tcp", "127.0.0.1:0")
+	lc := &net.ListenConfig{}
+	s.serverListener, err = lc.Listen(context.Background(), "tcp", "127.0.0.1:0")
 	s.Require().NoError(err, "must be able to allocate a port for serverListener")
 
 	s.server = grpc.NewServer()

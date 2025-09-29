@@ -65,7 +65,8 @@ func (s *InterceptorTestSuite) SetupSuite() {
 	go func() {
 		for {
 			var err error
-			s.ServerListener, err = net.Listen("tcp", s.serverAddr)
+			lc := &net.ListenConfig{}
+			s.ServerListener, err = lc.Listen(context.Background(), "tcp", s.serverAddr)
 			s.serverAddr = s.ServerListener.Addr().String()
 			s.Require().NoError(err, "must be able to allocate a port for serverListener")
 			if *flagTls {

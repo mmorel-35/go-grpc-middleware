@@ -93,7 +93,7 @@ func main() {
 	// Set up OTLP tracing (stdout for debug).
 	exporter, err := stdout.New(stdout.WithPrettyPrint())
 	if err != nil {
-		logger.Error("failed to init exporter", "err", err)
+		logger.ErrorContext(context.Background(), "failed to init exporter", "err", err)
 		os.Exit(1)
 	}
 	tp := sdktrace.NewTracerProvider(
@@ -123,7 +123,7 @@ func main() {
 			logging.StreamClientInterceptor(interceptorLogger(rpcLogger), logging.WithFieldsFromContext(logTraceID))),
 	)
 	if err != nil {
-		logger.Error("failed to init gRPC client", "err", err)
+		logger.ErrorContext(context.Background(), "failed to init gRPC client", "err", err)
 		os.Exit(1)
 	}
 
@@ -163,18 +163,18 @@ func main() {
 			},
 		))
 		httpSrv.Handler = m
-		logger.Info("starting HTTP server", "addr", httpSrv.Addr)
+		logger.InfoContext(context.Background(), "starting HTTP server", "addr", httpSrv.Addr)
 		return httpSrv.ListenAndServe()
 	}, func(error) {
 		if err := httpSrv.Close(); err != nil {
-			logger.Error("failed to stop web server", "err", err)
+			logger.ErrorContext(context.Background(), "failed to stop web server", "err", err)
 		}
 	})
 
 	g.Add(run.SignalHandler(context.Background(), syscall.SIGINT, syscall.SIGTERM))
 
 	if err := g.Run(); err != nil {
-		logger.Error("program interrupted", "err", err)
+		logger.ErrorContext(context.Background(), "program interrupted", "err", err)
 		os.Exit(1)
 	}
 }
