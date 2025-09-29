@@ -163,7 +163,7 @@ func main() {
 			},
 		))
 		httpSrv.Handler = m
-		logger.Info("starting HTTP server", "addr", httpSrv.Addr)
+		logger.InfoContext(context.Background(), "starting HTTP server", "addr", httpSrv.Addr)
 		return httpSrv.ListenAndServe()
 	}, func(error) {
 		if err := httpSrv.Close(); err != nil {
