@@ -42,8 +42,8 @@ func ExampleUnaryServerInterceptor() {
 
 	testvalidatev1.RegisterTestValidateServiceServer(srv, svc)
 
-	ln := &net.ListenConfig{}
-	listener, err := ln.Listen(context.Background(), "tcp", ":3000")
+	lc := &net.ListenConfig{}
+	listener, err := lc.Listen(context.Background(), "tcp", ":3000")
 	if err != nil {
 		panic(err) // only for example purposes
 	}
