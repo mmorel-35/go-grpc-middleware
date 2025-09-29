@@ -175,7 +175,7 @@ func (s *ServerInterceptorTestSuite) TestContextCancelledTreatedAsStatus() {
 // Order of matching label vales does not matter.
 func fetchPrometheusLines(t *testing.T, reg prometheus.Gatherer, metricName string, matchingLabelValues ...string) []string {
 	resp := httptest.NewRecorder()
-	req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, "/", http.NoBody)
+	req, err := http.NewRequestWithContext(context.Background(), http.MethodGet, "/", http.NoBody)
 	require.NoError(t, err, "failed creating request for Prometheus handler")
 
 	promhttp.HandlerFor(reg, promhttp.HandlerOpts{}).ServeHTTP(resp, req)
