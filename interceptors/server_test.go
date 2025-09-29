@@ -42,7 +42,8 @@ func (s *ServerInterceptorTestSuite) SetupSuite() {
 
 	s.mock = &mockReportable{}
 
-	s.serverListener, err = net.Listen("tcp", "127.0.0.1:0")
+	ln := &net.ListenConfig{}
+	s.serverListener, err = ln.Listen(context.Background(), "tcp", "127.0.0.1:0")
 	s.Require().NoError(err, "must be able to allocate a port for serverListener")
 
 	// This is the point where we hook up the interceptor
