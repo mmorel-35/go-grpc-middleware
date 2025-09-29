@@ -172,7 +172,7 @@ func main() {
 		if err != nil {
 			return err
 		}
-		logger.InfoContext(context.Background(), ("starting gRPC server", "addr", l.Addr().String())
+		logger.InfoContext(context.Background(), "starting gRPC server", "addr", l.Addr().String())
 		return grpcSrv.Serve(l)
 	}, func(err error) {
 		grpcSrv.GracefulStop()
