@@ -168,7 +168,7 @@ func main() {
 	g := &run.Group{}
 	g.Add(func() error {
 		lc := &net.ListenConfig{}
-		l, err := lc.Listen("tcp", grpcAddr)
+		l, err := lc.Listen(context.Background(), "tcp", grpcAddr)
 		if err != nil {
 			return err
 		}
