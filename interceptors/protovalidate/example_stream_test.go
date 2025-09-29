@@ -42,7 +42,7 @@ func ExampleStreamServerInterceptor() {
 	testvalidatev1.RegisterTestValidateServiceServer(srv, svc)
 
 	ln := &net.ListenConfig{}
-	listener, err := net.Listen(context.Background(), "tcp", ":3000")
+	listener, err := ln.Listen(context.Background(), "tcp", ":3000")
 	if err != nil {
 		panic(err) // only for example purposes
 	}
