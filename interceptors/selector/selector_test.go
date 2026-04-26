@@ -6,6 +6,7 @@ package selector
 import (
 	"context"
 	"errors"
+	"slices"
 	"testing"
 
 	"github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors"
@@ -17,12 +18,7 @@ import (
 // allow matches only given methods.
 func allow(methods []string) Matcher {
 	return MatchFunc(func(ctx context.Context, c interceptors.CallMeta) bool {
-		for _, s := range methods {
-			if s == c.FullMethod() {
-				return true
-			}
-		}
-		return false
+		return slices.Contains(methods, c.FullMethod())
 	})
 }
 

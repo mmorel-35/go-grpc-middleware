@@ -579,7 +579,7 @@ func (s *loggingPayloadSuite) TestPingStream_LogsAllRequestsAndResponses() {
 	stream, err := s.Client.PingStream(s.SimpleCtx())
 
 	s.Require().NoError(err, "no error on stream creation")
-	for i := 0; i < messagesExpected; i++ {
+	for range messagesExpected {
 		s.Require().NoError(stream.Send(testpb.GoodPingStream), "sending must succeed")
 
 		pong := &testpb.PingResponse{}

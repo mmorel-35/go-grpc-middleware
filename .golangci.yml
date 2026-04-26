@@ -13,6 +13,7 @@ linters:
     - gocritic
     - govet
     - misspell
+    - modernize
     - promlinter
     - testifylint
     - usestdlibvars

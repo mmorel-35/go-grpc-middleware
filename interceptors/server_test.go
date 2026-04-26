@@ -160,7 +160,7 @@ func (s *ServerInterceptorTestSuite) TestBiStreamingReporting() {
 			count++
 		}
 	}()
-	for i := 0; i < 100; i++ {
+	for range 100 {
 		s.Require().NoError(ss.Send(&testpb.PingStreamRequest{}), "sending shouldn't fail")
 	}
 

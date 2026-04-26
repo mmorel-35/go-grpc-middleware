@@ -5,6 +5,7 @@ package retry
 
 import (
 	"context"
+	"slices"
 	"time"
 
 	"google.golang.org/grpc"
@@ -157,11 +158,6 @@ func newRetriableFuncForCodes(codes []codes.Code) func(err error) bool {
 			// context errors are not retriable based on user settings.
 			return false
 		}
-		for _, code := range codes {
-			if code == errCode {
-				return true
-			}
-		}
-		return false
+		return slices.Contains(codes, errCode)
 	}
 }

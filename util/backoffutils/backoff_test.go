@@ -30,7 +30,7 @@ func TestJitterUp(t *testing.T) {
 	highCount := 0
 	lowCount := 0
 
-	for i := 0; i < 1000; i++ {
+	for range 1000 {
 		out := backoffutils.JitterUp(duration, variance)
 		assert.LessOrEqual(t, out, max, "value %s must be <= %s", out, max)
 		assert.GreaterOrEqual(t, out, min, "value %s must be >= %s", out, min)

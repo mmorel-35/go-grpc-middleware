@@ -16,7 +16,7 @@ import (
 // interface. In this case the interceptor fallbacks to legacy validation and `all` is ignored.
 func UnaryServerInterceptor(opts ...Option) grpc.UnaryServerInterceptor {
 	o := evaluateOpts(opts)
-	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
+	return func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (any, error) {
 		if err := validate(ctx, req, o.shouldFailFast, o.onValidationErrCallback); err != nil {
 			return nil, err
 		}
@@ -31,7 +31,7 @@ func UnaryServerInterceptor(opts ...Option) grpc.UnaryServerInterceptor {
 // interface. In this case the interceptor fallbacks to legacy validation and `all` is ignored.
 func UnaryClientInterceptor(opts ...Option) grpc.UnaryClientInterceptor {
 	o := evaluateOpts(opts)
-	return func(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+	return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 		if err := validate(ctx, req, o.shouldFailFast, o.onValidationErrCallback); err != nil {
 			return err
 		}
@@ -49,7 +49,7 @@ func UnaryClientInterceptor(opts ...Option) grpc.UnaryClientInterceptor {
 // calls to `stream.Recv()`.
 func StreamServerInterceptor(opts ...Option) grpc.StreamServerInterceptor {
 	o := evaluateOpts(opts)
-	return func(srv interface{}, stream grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
+	return func(srv any, stream grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
 		wrapper := &recvWrapper{
 			options:      o,
 			ServerStream: stream,
