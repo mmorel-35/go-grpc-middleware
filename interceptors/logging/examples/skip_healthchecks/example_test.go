@@ -25,7 +25,6 @@ func SkipHealthAndReflectionRequests(_ context.Context, c interceptors.CallMeta)
 }
 
 func ExampleInterceptorLogger() {
-
 	opts := []logging.Option{
 		logging.WithLogOnEvents(logging.StartCall, logging.FinishCall),
 	}
