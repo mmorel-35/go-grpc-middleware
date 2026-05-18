@@ -12,8 +12,8 @@ import (
 
 func splitFullMethodName(fullMethod string) (string, string) {
 	fullMethod = strings.TrimPrefix(fullMethod, "/") // remove leading slash
-	if i := strings.Index(fullMethod, "/"); i >= 0 {
-		return fullMethod[:i], fullMethod[i+1:]
+	if service, method, ok := strings.Cut(fullMethod, "/"); ok {
+		return service, method
 	}
 	return "unknown", "unknown"
 }
