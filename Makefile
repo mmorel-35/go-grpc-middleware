@@ -38,13 +38,13 @@ endef
 all: fmt proto lint test
 
 .PHONY: fmt
-fmt: $(GOIMPORTS)
+fmt: $(GOLANGCI_LINT)
 	@echo ">> formatting go code"
-	@gofmt -s -w $(GO_FILES_TO_FMT)
-	@for file in $(GO_FILES_TO_FMT) ; do \
-		./goimports.sh "$${file}"; \
-	done
-	@$(GOIMPORTS) -w $(GO_FILES_TO_FMT)
+	$(MAKE) $(MODULES:%=fmt_module_%)
+
+.PHONY: fmt_module_%
+$(MODULES:%=fmt_module_%): fmt_module_%: $(GOLANGCI_LINT)
+	@cd $* && $(GOLANGCI_LINT) fmt ./...
 
 .PHONY: test
 test:
