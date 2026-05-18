@@ -21,10 +21,10 @@ func UnaryServerInterceptor(validator protovalidate.Validator, opts ...Option) g
 
 	return func(
 		ctx context.Context,
-		req interface{},
+		req any,
 		info *grpc.UnaryServerInfo,
 		handler grpc.UnaryHandler,
-	) (resp interface{}, err error) {
+	) (resp any, err error) {
 		if err := validateMsg(req, validator, o); err != nil {
 			return nil, err
 		}
@@ -37,7 +37,7 @@ func UnaryServerInterceptor(validator protovalidate.Validator, opts ...Option) g
 func StreamServerInterceptor(validator protovalidate.Validator, opts ...Option) grpc.StreamServerInterceptor {
 	o := evaluateOpts(opts)
 	return func(
-		srv interface{},
+		srv any,
 		stream grpc.ServerStream,
 		info *grpc.StreamServerInfo,
 		handler grpc.StreamHandler,
@@ -58,14 +58,14 @@ type wrappedServerStream struct {
 	options   *options
 }
 
-func (w *wrappedServerStream) RecvMsg(m interface{}) error {
+func (w *wrappedServerStream) RecvMsg(m any) error {
 	if err := w.ServerStream.RecvMsg(m); err != nil {
 		return err
 	}
 	return validateMsg(m, w.validator, w.options)
 }
 
-func validateMsg(m interface{}, validator protovalidate.Validator, opts *options) error {
+func validateMsg(m any, validator protovalidate.Validator, opts *options) error {
 	msg, ok := m.(proto.Message)
 	if !ok {
 		return status.Errorf(codes.Internal, "unsupported message type: %T", m)

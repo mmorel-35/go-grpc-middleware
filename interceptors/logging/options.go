@@ -6,6 +6,7 @@ package logging
 import (
 	"context"
 	"fmt"
+	"slices"
 	"time"
 
 	"github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors"
@@ -34,12 +35,7 @@ const (
 )
 
 func has(events []LoggableEvent, event LoggableEvent) bool {
-	for _, e := range events {
-		if e == event {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(events, event)
 }
 
 var defaultOptions = &options{

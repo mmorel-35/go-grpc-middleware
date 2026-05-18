@@ -24,7 +24,7 @@ func (v *TestValidateService) SendStream(
 	_ *testvalidatev1.SendStreamRequest,
 	stream testvalidatev1.TestValidateService_SendStreamServer,
 ) error {
-	for i := 0; i < 10; i++ {
+	for range 10 {
 		if err := stream.Send(&testvalidatev1.SendStreamResponse{}); err != nil {
 			return err
 		}

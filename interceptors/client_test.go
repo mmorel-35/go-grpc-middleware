@@ -315,7 +315,7 @@ func (s *ClientInterceptorTestSuite) TestBiStreamingReporting() {
 			count++
 		}
 	}()
-	for i := 0; i < 100; i++ {
+	for range 100 {
 		s.Require().NoError(ss.Send(&testpb.PingStreamRequest{}), "sending shouldn't fail")
 	}
 
@@ -339,7 +339,7 @@ func (s *ClientInterceptorTestSuite) TestClientStream() {
 		_, _ = ss.CloseAndRecv()
 	}()
 
-	for i := 0; i < 100; i++ {
+	for range 100 {
 		s.Require().NoError(ss.Send(&testpb.PingClientStreamRequest{}), "sending shouldn't fail")
 	}
 

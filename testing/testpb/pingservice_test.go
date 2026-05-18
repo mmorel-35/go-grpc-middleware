@@ -67,7 +67,7 @@ func TestPingServiceOnWire(t *testing.T) {
 
 	l, err := testClient.PingList(context.Background(), &PingListRequest{Value: "24"})
 	require.NoError(t, err)
-	for i := 0; i < ListResponseCount; i++ {
+	for i := range ListResponseCount {
 		r, receiveError := l.Recv()
 		require.NoError(t, receiveError)
 		require.Equal(t, "24", r.Value)
@@ -76,7 +76,7 @@ func TestPingServiceOnWire(t *testing.T) {
 
 	s, err := testClient.PingStream(context.Background())
 	require.NoError(t, err)
-	for i := 0; i < ListResponseCount; i++ {
+	for i := range ListResponseCount {
 		require.NoError(t, s.Send(&PingStreamRequest{Value: fmt.Sprintf("%v", i)}))
 
 		r, err := s.Recv()

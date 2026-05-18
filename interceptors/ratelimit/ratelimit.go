@@ -43,7 +43,7 @@ func StreamServerInterceptor(limiter Limiter) grpc.StreamServerInterceptor {
 // This can be helpful for clients that want to limit the number of requests they send in a given time, potentially
 // saving cost.
 func UnaryClientInterceptor(limiter Limiter) grpc.UnaryClientInterceptor {
-	return func(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn,
+	return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn,
 		invoker grpc.UnaryInvoker, opts ...grpc.CallOption,
 	) error {
 		if err := limiter.Limit(ctx); err != nil {
